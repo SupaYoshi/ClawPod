@@ -17,11 +17,12 @@ anything important.
 - GLib plus its development headers
 - a C compiler and `pkg-config`
 - Python 3
+- python-mutagen (for the convenient `add` command)
 
 On Arch Linux:
 
 ```sh
-sudo pacman -S libimobiledevice ifuse libgpod glib2 pkgconf gcc
+sudo pacman -S libimobiledevice ifuse libgpod glib2 pkgconf gcc python-mutagen
 make
 make install
 ```
@@ -30,11 +31,15 @@ make install
 
 ```sh
 clawpod doctor
+clawpod add ~/Music/Album ~/Music/song.mp3
 clawpod sync selection.tsv
 clawpod verify
 ```
 
-`sync` requires an initialized DBVersion 4 library, a 54-byte `HashInfo`, and
+`add` recursively discovers MP3 files, reads their tags with Mutagen, and then
+uses the same checked sync path. `sync` is the lower-level manifest interface.
+
+Both commands require an initialized DBVersion 4 library, a 54-byte `HashInfo`, and
 `SQLiteDB=true` in `iTunes_Control/Device/SysInfoExtended`. It refuses to write
 when those safety checks fail.
 
